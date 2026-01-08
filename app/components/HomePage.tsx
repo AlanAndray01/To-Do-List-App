@@ -128,7 +128,7 @@ export default function HomePage() {
                 {/* Delete Button - Top Right Corner */}
                 <button
                   onClick={(e) => handleDeleteList(list.id, e)}
-                  className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:bg-gray-300 rounded z-10"
+                  className="absolute top-2 right-2 opacity-100  cursor-pointer p-1 hover:bg-gray-50 rounded z-10"
                   aria-label="Delete list"
                 >
                   <X className="w-4 h-4 text-gray-600" />

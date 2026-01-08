@@ -199,7 +199,7 @@ export default function CreateListPage() {
       </div>
 
       {/* Choose a label Section - Reduced space */}
-      <div className="px-6 mt-1 py-6 border-gray-200 lg:px-80"> {/* Removed min-h-[30vh] and flex-col, changed padding */}
+      <div className="px-6 mt-1 p-6 border-gray-200 lg:px-80"> {/* Removed min-h-[30vh] and flex-col, changed padding */}
         <h2 className="lg:text-xl text-lg font-bold text-black my-3">Choose a label</h2> {/* Changed mb-2 to mb-3 */}
 
         <div className="grid grid-cols-4 gap-2"> {/* Removed flex-1 and flex-col justify-end */}

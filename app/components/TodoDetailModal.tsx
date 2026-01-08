@@ -126,7 +126,7 @@ export default function ListDetailModal({ list, onClose }: ListDetailModalProps)
     <>
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-black bg-opacity-50 z-40"
+        className="fixed inset-0 bg-black bg-opacity-100 z-40"
         onClick={onClose}
       />
 
@@ -160,7 +160,7 @@ export default function ListDetailModal({ list, onClose }: ListDetailModalProps)
               )}
               <button
                 onClick={onClose}
-                className="p-1 hover:bg-gray-100 rounded transition-colors"
+                className="p-1 bg-gray-100 rounded transition-colors"
                 aria-label="Close modal"
               >
                 <X className="w-6 h-6 text-black" />
