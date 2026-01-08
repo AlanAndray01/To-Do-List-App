@@ -83,7 +83,7 @@ export default function SearchPage() {
         </div>
         <button
           onClick={handleCancel}
-          className="text-gray-700 font-medium hover:text-black transition-colors"
+          className="mr-2 text-gray-700 font-medium hover:text-black transition-colors"
         >
           Cancel
         </button>

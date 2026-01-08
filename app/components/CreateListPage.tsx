@@ -176,7 +176,7 @@ export default function CreateListPage() {
         </div>
 
         {/* Description Input */}
-        <div className="mb-8">
+        <div className="mb-4"> {/* Changed from mb-8 to mb-4 (reduced by 2/3rds) */}
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
@@ -187,7 +187,7 @@ export default function CreateListPage() {
         </div>
 
         {/* Save Button */}
-        <div className="mb-8">
+        <div className="mb-1"> {/* Changed from mb-8 to mb-4 (reduced by 2/3rds) */}
           <button
             onClick={handleSaveList}
             className="w-full bg-black text-white py-3 rounded-lg font-medium flex items-center justify-center gap-2 hover:bg-gray-800 transition-colors"
@@ -198,26 +198,24 @@ export default function CreateListPage() {
         </div>
       </div>
 
-      {/* Choose a label Section - Fixed at bottom */}
-      <div className="px-5 py-6 border-gray-200 min-h-[30vh] lg:px-80 flex flex-col">
-        <h2 className="lg:text-xl text-lg font-bold text-black mb-2">Choose a label</h2>
+      {/* Choose a label Section - Reduced space */}
+      <div className="px-6 mt-1 pb-6 border-gray-200 lg:px-80"> {/* Removed min-h-[30vh] and flex-col, changed padding */}
+        <h2 className="lg:text-xl text-lg font-bold text-black mb-3">Choose a label</h2> {/* Changed mb-2 to mb-3 */}
 
-        <div className="flex-1 flex flex-col justify-end">
-          <div className="grid grid-cols-4 gap-2">
-            {labels.map((label) => (
-              <button
-                key={label.id}
-                onClick={() => setSelectedLabel(label.id as 'Personal' | 'Work' | 'Finance' | 'Other')}
-                className={`lg:py-3 px-3 py-1 rounded-md text-sm font-medium transition-all flex items-center justify-center ${
-                  selectedLabel === label.id
-                    ? 'bg-black text-white'
-                    : 'bg-gray-100 text-gray-700'
-                }`}
-              >
-                {label.name}
-              </button>
-            ))}
-          </div>
+        <div className="grid grid-cols-4 gap-2"> {/* Removed flex-1 and flex-col justify-end */}
+          {labels.map((label) => (
+            <button
+              key={label.id}
+              onClick={() => setSelectedLabel(label.id as 'Personal' | 'Work' | 'Finance' | 'Other')}
+              className={`lg:py-3 px-3 py-1 rounded-md text-sm font-medium transition-all flex items-center justify-center ${
+                selectedLabel === label.id
+                  ? 'bg-black text-white'
+                  : 'bg-gray-100 text-gray-700'
+              }`}
+            >
+              {label.name}
+            </button>
+          ))}
         </div>
       </div>
     </div>
