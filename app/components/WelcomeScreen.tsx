@@ -42,7 +42,7 @@ export default function WelcomeScreen() {
       {/* Continue Button */}
       <button 
         onClick={() => router.push('/home')}
-        className="mt-32 bg-white text-black px-12 py-3 rounded-full font-medium hover:bg-gray-100 transition-colors animate-slide-up-delay-2"
+        className="mt-20 bg-white text-black px-12 py-3 rounded-full font-medium hover:bg-gray-100 transition-colors animate-slide-up-delay-2"
       >
         Continue
       </button>
