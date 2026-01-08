@@ -2,25 +2,16 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ArrowLeft, Pin
-  // , Plus
-  , X, Check, SquarePlus, Save } from 'lucide-react';
+import { ArrowLeft, Pin, X, Check, SquarePlus, Save } from 'lucide-react';
 import { useTodoStore } from '../lib/store/useTodoStore';
-
-interface TodoItem {
-  id: string;
-  text: string;
-  completed: boolean;
-}
+import { TodoItem } from '../lib/types';
 
 export default function CreateListPage() {
   const router = useRouter();
   const { addList } = useTodoStore();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [todos, setTodos] = useState<TodoItem[]>([
-    { id: '1', text: 'Learn something new and useful', completed: false },
-  ]);
+  const [todos, setTodos] = useState<TodoItem[]>([]);
   const [newTodoText, setNewTodoText] = useState('');
   const [selectedLabel, setSelectedLabel] = useState<'Personal' | 'Work' | 'Finance' | 'Other'>('Personal');
   const [isPinned, setIsPinned] = useState(false);
@@ -34,6 +25,7 @@ export default function CreateListPage() {
 
   // Dynamic spacing based on todo count
   const getSpacingClass = () => {
+    if (todos.length === 0) return 'space-y-44';
     if (todos.length === 1) return 'space-y-44';
     if (todos.length === 2) return 'space-y-32';
     if (todos.length === 3) return 'space-y-24';
@@ -47,6 +39,7 @@ export default function CreateListPage() {
       id: Date.now().toString(),
       text: newTodoText,
       completed: false,
+      createdAt: new Date(),
     };
     setTodos([...todos, newTodo]);
     setNewTodoText('');
@@ -68,13 +61,13 @@ export default function CreateListPage() {
       return;
     }
     
-    // Add the list to the store with description and pinned status
-    addList(title, selectedLabel, description, isPinned);
+    // Add the list with todos directly
+    addList(title, selectedLabel, description, isPinned, todos);
     
-    // Reset form and go back to home
+    // Reset form
     setTitle('');
     setDescription('');
-    setTodos([{ id: '1', text: 'Learn something new and useful', completed: false }]);
+    setTodos([]);
     setNewTodoText('');
     setIsPinned(false);
     setSelectedLabel('Personal');
@@ -95,10 +88,11 @@ export default function CreateListPage() {
 
         <button
           onClick={() => setIsPinned(!isPinned)}
-          className={`flex items-center gap-2 px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${isPinned
+          className={`flex items-center gap-2 px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${
+            isPinned
               ? 'bg-black text-white border-black'
               : 'border border-gray-300 text-gray-700'
-            }`}
+          }`}
         >
           <Pin className="w-4 h-4" />
           {isPinned ? 'Pinned' : 'Pin'}
@@ -117,7 +111,7 @@ export default function CreateListPage() {
             className="w-full text-xl font-bold text-black mb-1 outline-none bg-transparent placeholder:text-gray-400"
             autoFocus
           />
-          <hr className='text-gray-300' />
+          <hr className="text-gray-300" />
         </div>
 
         {/* Todo List - Dynamic spacing */}
@@ -128,10 +122,11 @@ export default function CreateListPage() {
               <div key={todo.id} className="flex items-center gap-3 group">
                 <button
                   onClick={() => handleToggleTodo(todo.id)}
-                  className={`w-5 h-5 border-2 rounded flex items-center justify-center shrink-0 ${todo.completed
+                  className={`w-5 h-5 border-2 rounded flex items-center justify-center shrink-0 ${
+                    todo.completed
                       ? 'bg-black border-black'
                       : 'border-gray-400'
-                    }`}
+                  }`}
                 >
                   {todo.completed && <Check className="w-3 h-3 text-white" strokeWidth={3} />}
                 </button>
@@ -145,8 +140,9 @@ export default function CreateListPage() {
                     );
                     setTodos(updatedTodos);
                   }}
-                  className={`flex-1 text-base bg-transparent outline-none ${todo.completed ? 'text-gray-500 line-through' : 'text-gray-800'
-                    }`}
+                  className={`flex-1 text-base bg-transparent outline-none ${
+                    todo.completed ? 'text-gray-500 line-through' : 'text-gray-800'
+                  }`}
                 />
 
                 <button
@@ -212,15 +208,13 @@ export default function CreateListPage() {
               <button
                 key={label.id}
                 onClick={() => setSelectedLabel(label.id as 'Personal' | 'Work' | 'Finance' | 'Other')}
-                className={`lg:py-3 px-3 py-1 rounded-md text-sm font-medium transition-all flex items-center justify-center ${selectedLabel === label.id
+                className={`lg:py-3 px-3 py-1 rounded-md text-sm font-medium transition-all flex items-center justify-center ${
+                  selectedLabel === label.id
                     ? 'bg-black text-white'
                     : 'bg-gray-100 text-gray-700'
-                  }`}
+                }`}
               >
                 {label.name}
-                {/* {selectedLabel === label.id && (
-                  <Check className="w-5 h-5 ml-2" />
-                )} */}
               </button>
             ))}
           </div>

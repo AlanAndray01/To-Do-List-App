@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useTodoStore } from '../lib/store/useTodoStore';
 import ListDetailModal from '@/app/components/TodoDetailModal';
-import { TodoList, TodoItem } from '../lib/types';
+import { TodoList } from '../lib/types';
 
 export default function SearchPage() {
   const router = useRouter();
@@ -12,32 +12,20 @@ export default function SearchPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedList, setSelectedList] = useState<TodoList | null>(null);
 
-  // Filter lists AND todos based on search query
+  // Filter lists based on title OR todos matching search query
   const searchResults = searchQuery.trim() 
-    ? lists
-        .map((list) => {
-          // Check if list title matches
-          const listMatches = list.title.toLowerCase().includes(searchQuery.toLowerCase());
-          
-          // Check if any todo in this list matches
-          const matchingTodos = list.todos.filter((todo) =>
-            todo.text.toLowerCase().includes(searchQuery.toLowerCase())
-          );
-          
-          // If list title matches OR has matching todos, include it
-          if (listMatches || matchingTodos.length > 0) {
-            return {
-              ...list,
-              matchingTodos, // Store which todos matched
-              showMatchingTodos: matchingTodos.length > 0 // Flag to show todos
-            };
-          }
-          return null;
-        })
-        .filter((list) => list !== null) as (TodoList & { 
-          matchingTodos: TodoItem[]; 
-          showMatchingTodos: boolean;
-        })[]
+    ? lists.filter((list) => {
+        // Check if list title matches
+        const listMatches = list.title.toLowerCase().includes(searchQuery.toLowerCase());
+        
+        // Check if any todo in this list matches
+        const todoMatches = list.todos.some((todo) =>
+          todo.text.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+        
+        // Return true if either list title or any todo matches
+        return listMatches || todoMatches;
+      })
     : [];
 
   // Label colors
@@ -103,61 +91,41 @@ export default function SearchPage() {
 
       {/* Search Results - Only show when there's a query */}
       {searchQuery.trim() && (
-        <div className="px-4 py-4 md:px-8 lg:px-12">
+        <div className="px-4 py-4 md:px-8 lg:px-80">
           {searchResults.length === 0 ? (
             <div className="text-center py-10">
               <p className="text-gray-600 text-lg">No lists or todos found matching &quot;{searchQuery}&quot;</p>
             </div>
           ) : (
-            <div className="space-y-4">
+            <div className="space-y-3">
               {searchResults.map((list) => (
-                <div key={list.id} className="space-y-2">
-                  {/* List Card */}
-                  <div
-                    onClick={() => setSelectedList(list)}
-                    className={`p-4 rounded-xl border-2 cursor-pointer hover:shadow-md transition-all ${getLabelColor(
-                      list.label
-                    )}`}
-                  >
-                    <h3 className="text-lg font-bold text-black mb-2">{list.title}</h3>
-                    <div className="flex items-center gap-3">
-                      <span className="px-2 py-0.5 bg-black text-white text-xs rounded-md font-medium">
-                        {list.label}
-                      </span>
-                      <span className="text-xs text-gray-600 flex items-center gap-1">
-                        <svg
-                          className="w-4 h-4"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <rect x="3" y="4" width="18" height="18" rx="2" ry="2" strokeWidth="2" />
-                          <line x1="16" y1="2" x2="16" y2="6" strokeWidth="2" />
-                          <line x1="8" y1="2" x2="8" y2="6" strokeWidth="2" />
-                          <line x1="3" y1="10" x2="21" y2="10" strokeWidth="2" />
-                        </svg>
-                        {formatDate(list.createdAt)}
-                      </span>
-                    </div>
+                <div
+                  key={list.id}
+                  onClick={() => setSelectedList(list)}
+                  className={`p-4 rounded-xl border-2 cursor-pointer hover:shadow-md transition-all ${getLabelColor(
+                    list.label
+                  )}`}
+                >
+                  <h3 className="text-lg font-bold text-black mb-2">{list.title}</h3>
+                  <div className="flex items-center gap-3">
+                    <span className="px-2 py-0.5 bg-black text-white text-xs rounded-md font-medium">
+                      {list.label}
+                    </span>
+                    <span className="text-xs text-gray-600 flex items-center gap-1">
+                      <svg
+                        className="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2" strokeWidth="2" />
+                        <line x1="16" y1="2" x2="16" y2="6" strokeWidth="2" />
+                        <line x1="8" y1="2" x2="8" y2="6" strokeWidth="2" />
+                        <line x1="3" y1="10" x2="21" y2="10" strokeWidth="2" />
+                      </svg>
+                      {formatDate(list.createdAt)}
+                    </span>
                   </div>
-
-                  {/* Show matching todos if any */}
-                  {list.showMatchingTodos && list.matchingTodos.length > 0 && (
-                    <div className="ml-4 pl-4 border-l-2 border-gray-300 space-y-2">
-                      <p className="text-sm text-gray-600 font-medium">Matching todos:</p>
-                      {list.matchingTodos.map((todo) => (
-                        <div 
-                          key={todo.id} 
-                          className="flex items-center gap-2 bg-gray-50 p-2 rounded"
-                        >
-                          <div className={`w-3 h-3 border rounded ${todo.completed ? 'bg-gray-400 border-gray-400' : 'border-gray-400'}`}></div>
-                          <span className={`text-sm ${todo.completed ? 'text-gray-500 line-through' : 'text-gray-800'}`}>
-                            {todo.text}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  )}
                 </div>
               ))}
             </div>

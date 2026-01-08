@@ -4,8 +4,8 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { useState } from 'react';
 import { Search, Plus, X } from 'lucide-react'; // Added X icon
-import { useTodoStore } from '../lib/store/useTodoStore';
-import { TodoList } from '../lib/types';
+import { useTodoStore } from '@/app/lib/store/useTodoStore';
+import { TodoList } from '@/app/lib/types';
 import ListDetailModal from './TodoDetailModal';
 
 export default function HomePage() {
@@ -58,9 +58,7 @@ export default function HomePage() {
               className="w-full h-full object-contain"
             />
           </div>
-          <h1 className="text-xl font-bold text-black
-                   md:text-2xl
-                   lg:text-3xl">
+          <h1 className="text-xl font-bold text-black md:text-2xl lg:text-3xl">
             Dooit
           </h1>
         </div>
@@ -73,29 +71,17 @@ export default function HomePage() {
       </div>
 
       {/* Tabs */}
-      <div className="bg-white px-4 py-3 flex justify-between gap-0 
-                    md:justify-center md:gap-3 md:px-6 
-                    lg:gap-4 lg:px-8">
+      <div className="bg-white px-4 py-3 flex justify-between gap-0 md:justify-center md:gap-3 md:px-6 lg:gap-4 lg:px-8">
         <button
           onClick={() => setActiveTab('all')}
-          className={`px-14 py-2 rounded-md text-sm font-medium
-                   md:px-20 md:py-3 md:text-base md:rounded-lg
-                   lg:px-28 lg:py-3 lg:text-lg cursor-pointer transition-colors
-                   ${activeTab === 'all' 
-                     ? 'bg-black text-white hover:bg-black' 
-                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
+          className={`px-14 py-2 rounded-md text-sm font-medium md:px-20 md:py-3 md:text-base md:rounded-lg lg:px-28 lg:py-3 lg:text-lg cursor-pointer transition-colors ${activeTab === 'all' ? 'bg-black text-white hover:bg-black' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
         >
           All List
         </button>
         
         <button
           onClick={() => setActiveTab('pinned')}
-          className={`px-14 py-2 rounded-md text-sm font-medium
-                   md:px-20 md:py-3 md:text-base md:rounded-lg
-                   lg:px-28 lg:py-3 lg:text-lg cursor-pointer transition-colors
-                   ${activeTab === 'pinned' 
-                     ? 'bg-black text-white hover:bg-black' 
-                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
+          className={`px-14 py-2 rounded-md text-sm font-medium md:px-20 md:py-3 md:text-base md:rounded-lg lg:px-28 lg:py-3 lg:text-lg cursor-pointer transition-colors ${activeTab === 'pinned' ? 'bg-black text-white hover:bg-black' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
         >
           Pinned
         </button>
@@ -104,9 +90,7 @@ export default function HomePage() {
       {/* Lists or Empty State */}
       {displayedLists.length === 0 ? (
         <div className="flex flex-col items-center justify-center px-6 pt-20">
-          <div className="w-80 mb-2 
-                  md:w-96 md:mb-8
-                  lg:w-md lg:mb-10">
+          <div className="w-80 mb-2 md:w-96 md:mb-8 lg:w-md lg:mb-10">
             <Image
               src={
                 activeTab === 'pinned'
