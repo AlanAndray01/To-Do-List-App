@@ -76,7 +76,7 @@ export default function CreateListPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white flex flex-col">
+    <div className="min-h-[80vh] bg-white flex flex-col"> {/* 80% of viewport */}
       {/* Header */}
       <div className="px-5 py-4 flex items-center justify-between border-b border-gray-200">
         <button
@@ -100,7 +100,7 @@ export default function CreateListPage() {
       </div>
 
       {/* Content */}
-      <div className="flex-1 px-5 py-6 lg:px-80">
+      <div className="flex-1 px-5 py-2 lg:px-80">
         {/* Title Input */}
         <div className="mb-8">
           <input
@@ -200,7 +200,7 @@ export default function CreateListPage() {
 
       {/* Choose a label Section - Reduced space */}
       <div className="px-6 mt-1 pb-6 border-gray-200 lg:px-80"> {/* Removed min-h-[30vh] and flex-col, changed padding */}
-        <h2 className="lg:text-xl text-lg font-bold text-black mb-3">Choose a label</h2> {/* Changed mb-2 to mb-3 */}
+        <h2 className="lg:text-xl text-lg font-bold text-black my-3">Choose a label</h2> {/* Changed mb-2 to mb-3 */}
 
         <div className="grid grid-cols-4 gap-2"> {/* Removed flex-1 and flex-col justify-end */}
           {labels.map((label) => (
