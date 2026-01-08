@@ -100,7 +100,7 @@ export default function CreateListPage() {
       </div>
 
       {/* Content */}
-      <div className="flex-1 px-5 py-2 lg:px-80">
+      <div className="flex-1 px-5 py-5 lg:px-80">
         {/* Title Input */}
         <div className="mb-8">
           <input
